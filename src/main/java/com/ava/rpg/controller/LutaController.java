@@ -2,6 +2,7 @@ package com.ava.rpg.controller;
 
 import com.ava.rpg.model.IniciativaLuta;
 import com.ava.rpg.model.Luta;
+import com.ava.rpg.model.Personagem;
 import com.ava.rpg.service.LutaService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,16 @@ public class LutaController {
 
 
 
-    @GetMapping("/Iniciativa/{idPersonagem}/{idMonstro}")
+    @GetMapping("/iniciativa/{idPersonagem}/{idMonstro}")
     @ApiOperation("Iniciativa para determianr quem começa atacando entre o personagem e o monstro")
     public ResponseEntity<IniciativaLuta> iniciativaLuta(@PathVariable(value = "idPersonagem") Long idPersonagem, @PathVariable(value = "idMonstro") Long idMonstro){
         return new ResponseEntity<>(service.iniciativaLuta(idPersonagem,idMonstro) , HttpStatus.CREATED);
+    }
+
+    @GetMapping("/iniciativa/pesquisar")
+    @ApiOperation("pesquisa todos as iniciativas")
+    public ResponseEntity<List<IniciativaLuta>> listariniciativas(){
+        return new ResponseEntity<>(service.listariniciativas() , HttpStatus.OK);
     }
 
     @PostMapping("/turno/automatico/{idIniciativa}/{identificador}")

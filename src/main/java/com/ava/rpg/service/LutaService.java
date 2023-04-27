@@ -61,6 +61,11 @@ public class LutaService {
         return this.iniciativaRepository.save(iniciativa);
     }
 
+    public List<IniciativaLuta> listariniciativas(){
+
+        return iniciativaRepository.findAll();
+    }
+
     public Luta ataque(Long idIniciativa, String identificador){
         Luta turno = new Luta();
         turno.setDano(0);
