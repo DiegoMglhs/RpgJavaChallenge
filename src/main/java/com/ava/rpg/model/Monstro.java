@@ -33,4 +33,6 @@ public class Monstro implements Serializable {
     private Integer quantidadeDeDados;
     @Column(name = "FACES_DO_DADO", nullable = false)
     private Integer facesDoDado;
+    @Column(name = "IDENTIFICADOR", nullable = false)
+    private String identificador;
 }

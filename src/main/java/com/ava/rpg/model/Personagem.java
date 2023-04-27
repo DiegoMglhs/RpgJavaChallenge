@@ -17,7 +17,7 @@ public class Personagem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",nullable = false)
     private Long id;
-    @Column(name = "NOME")
+    @Column(name = "NOME", nullable = false)
     private String nome;
     @Column(name = "CLASSE", nullable = false)
     private String classe;
@@ -33,5 +33,7 @@ public class Personagem implements Serializable {
     private Integer quantidadeDeDados;
     @Column(name = "FACES_DO_DADO", nullable = false)
     private Integer facesDoDado;
+    @Column(name = "IDENTIFICADOR", nullable = false)
+    private String identificador;
 
 }

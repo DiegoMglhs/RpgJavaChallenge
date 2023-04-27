@@ -1,11 +1,12 @@
 package com.ava.rpg.service;
 
+import com.ava.rpg.exception.InvalidInputException;
+import com.ava.rpg.exception.ResourceNotFoundException;
 import com.ava.rpg.model.Personagem;
 import com.ava.rpg.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class PersonagemService {
     private PersonagemRepository repository;
 
     public Personagem criar(Personagem personagem) throws Exception {
+        personagem.setIdentificador("P");
         switch (personagem.getClasse().toUpperCase()){
             case "GUERREIRO":
                 personagem.setVida(20);
@@ -83,13 +85,30 @@ public class PersonagemService {
     }
 
     public Personagem localizarPersonagem(Long id){
-        return new Personagem();
+        return repository.findById( id )
+                .orElseThrow( ( ) -> new ResourceNotFoundException(
+                        "Personagem não encontrado pelo ID: " + id ) );
     }
 
     public void excluir (Long id){
+        localizarPersonagem(id);
+        repository.deleteById(id);
 
     }
-    public Personagem editar (Personagem personagem){
-        return new Personagem();
+    public Personagem editarPersonagem (Personagem personagem){
+        Personagem personagemInicial = localizarPersonagem(personagem.getId());
+        if (personagemInicial.getClasse().toUpperCase().intern() != personagem.getClasse().toUpperCase().intern()){
+            throw new InvalidInputException("Não é possivel mudar a classe do Personagem.");
+        }
+
+        if(personagem.getIdentificador().toUpperCase().intern() != "P"){
+            throw new InvalidInputException("Não é possivel transformar em monstro o seu personagem.");
+        }
+        return repository.save(personagem);
+    }
+
+    public List<Personagem> cemiterio(){
+        List<Personagem> cemiterio = repository.findByVida(0);
+        return cemiterio;
     }
 }
